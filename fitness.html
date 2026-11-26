@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>健身入門｜新手原則與一週菜單</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@700;900&family=Noto+Sans+TC:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#14171c;--panel:#1e232b;--text:#eef0f2;--muted:#a9b1bb;--accent:#ff7a3d;--line:#ffffff1f}
+*{box-sizing:border-box;margin:0}
+body{font-family:"Noto Sans TC",system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.8}
+h1,h2,h3{font-family:"Noto Serif TC",serif;line-height:1.3}
+a{color:var(--accent)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.wrap{max-width:1040px;margin:0 auto;padding:0 24px}
+.topbar{background:#0d0f12;padding:10px 0;font-size:.95rem}
+.topbar .wrap{display:flex;justify-content:space-between;gap:16px}
+.topbar a{text-decoration:none}
+
+.hero{padding:80px 0 64px;border-bottom:6px solid var(--accent)}
+.hero h1{font-size:clamp(2.2rem,5vw,3.6rem);font-weight:900}
+.hero h1 span{color:var(--accent)}
+.hero p{margin-top:16px;color:var(--muted);max-width:32em}
+
+section{padding:60px 0}
+section h2{font-size:1.7rem;margin-bottom:8px}
+.lead{color:var(--muted);margin-bottom:28px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:20px}
+.card{background:var(--panel);padding:22px;border-radius:8px;border-top:3px solid var(--accent)}
+.card h3{font-size:1.15rem;margin-bottom:6px}
+.card p{color:var(--muted)}
+
+.alt{background:#10131700;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:520px}
+th,td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--line)}
+th{color:var(--accent);font-weight:500}
+td:first-child{white-space:nowrap;font-weight:500}
+.note{margin-top:16px;color:var(--muted);font-size:.92rem}
+
+.timer{background:var(--panel);border-radius:8px;padding:28px;text-align:center;max-width:420px}
+.time{font:900 3.4rem "Noto Serif TC",serif;font-variant-numeric:tabular-nums}
+.btns{display:flex;gap:10px;justify-content:center;margin-top:14px;flex-wrap:wrap}
+button{background:transparent;color:var(--text);border:1.5px solid var(--accent);padding:8px 18px;border-radius:999px;font:inherit;cursor:pointer}
+button:hover{background:var(--accent);color:#1b0e06}
+
+footer{padding:32px 0;text-align:center;color:var(--muted);font-size:.85rem;border-top:6px solid var(--accent)}
+</style>
+</head>
+<body>
+
+<nav class="topbar"><div class="wrap"><a href="index.html">← 回到首頁</a><a href="billiards.html">前往撞球 →</a></div></nav>
+
+<header class="hero">
+  <div class="wrap">
+    <h1>從零開始，<br>練出<span>好習慣</span></h1>
+    <p>不用器材也能開始。先把動作做對、練得規律，比一開始拚重量更重要。</p>
+  </div>
+</header>
+
+<main>
+  <section>
+    <div class="wrap">
+      <h2>三種訓練</h2>
+      <p class="lead">一個完整的計畫會把這三件事都包含進去。</p>
+      <div class="grid">
+        <div class="card"><h3>肌力訓練</h3><p>深蹲、伏地挺身、划船這類動作，讓肌肉變強、姿勢更穩，也有助於維持代謝。</p></div>
+        <div class="card"><h3>有氧運動</h3><p>快走、慢跑、騎車、游泳，提升心肺能力，讓你爬樓梯不再喘。</p></div>
+        <div class="card"><h3>伸展與恢復</h3><p>訓練後的伸展、充足睡眠和休息日，是肌肉真正進步的時間。</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="alt">
+    <div class="wrap">
+      <h2>新手一週菜單</h2>
+      <p class="lead">每週練 4 天，其餘休息。肌力日每個動作做 3 組，每組 8 到 12 下。</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>星期</th><th>內容</th></tr></thead>
+          <tbody>
+            <tr><td>週一</td><td>肌力日：深蹲、伏地挺身、弓步、棒式</td></tr>
+            <tr><td>週二</td><td>有氧：快走或慢跑 20 到 30 分鐘</td></tr>
+            <tr><td>週三</td><td>休息</td></tr>
+            <tr><td>週四</td><td>肌力日：臀橋、跪姿伏地挺身或伏地挺身、啞鈴划船、棒式</td></tr>
+            <tr><td>週五</td><td>有氧：騎車、游泳或快走 20 到 30 分鐘</td></tr>
+            <tr><td>週六</td><td>輕鬆活動與伸展</td></tr>
+            <tr><td>週日</td><td>休息</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">棒式以撐住 20 到 40 秒為一組。沒有啞鈴可以用裝水的寶特瓶代替。</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2>新手五個原則</h2>
+      <p class="lead">記住這五件事，可以少走很多冤枉路。</p>
+      <div class="grid">
+        <div class="card"><h3>1. 先熱身</h3><p>訓練前花 5 到 10 分鐘活動關節、做輕量動作，降低受傷機會。</p></div>
+        <div class="card"><h3>2. 動作優先</h3><p>寧可輕一點、做標準，也不要為了重量讓姿勢變形。</p></div>
+        <div class="card"><h3>3. 慢慢增加</h3><p>能輕鬆完成時，再少量增加次數或重量，不要一次加太多。</p></div>
+        <div class="card"><h3>4. 睡飽吃夠</h3><p>睡眠和均衡飲食（包含足夠蛋白質）會直接影響恢復。</p></div>
+        <div class="card"><h3>5. 不舒服就停</h3><p>痠痛是正常的，但刺痛、頭暈或關節不適就該停下來。</p></div>
+      </div>
+      <p class="note">本頁是一般性的入門資訊。如果有慢性疾病、受傷或身體不適，開始前請先詢問醫師或專業教練。</p>
+    </div>
+  </section>
+
+  <section class="alt">
+    <div class="wrap">
+      <h2>組間休息計時器</h2>
+      <p class="lead">做完一組後選一個時間，倒數結束再開始下一組。</p>
+      <div class="timer">
+        <div class="time" id="time" aria-live="polite">01:00</div>
+        <div class="btns">
+          <button type="button" data-sec="30">30 秒</button>
+          <button type="button" data-sec="60">60 秒</button>
+          <button type="button" data-sec="90">90 秒</button>
+          <button type="button" id="reset">重設</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer><div class="wrap">本頁內容僅供參考，不能取代專業醫療或教練建議。</div></footer>
+
+<script>
+(function(){
+  var el=document.getElementById("time"), id=null, left=60;
+  function show(){var m=Math.floor(left/60),s=left%60;el.textContent=(m<10?"0":"")+m+":"+(s<10?"0":"")+s;}
+  function stop(){if(id){clearInterval(id);id=null;}}
+  function start(sec){
+    stop();left=sec;show();
+    id=setInterval(function(){
+      left--;show();
+      if(left<=0){stop();el.textContent="時間到！";}
+    },1000);
+  }
+  document.querySelectorAll("button[data-sec]").forEach(function(b){
+    b.addEventListener("click",function(){start(parseInt(b.dataset.sec,10));});
+  });
+  document.getElementById("reset").addEventListener("click",function(){stop();left=60;show();});
+})();
+</script>
+</body>
+</html>
