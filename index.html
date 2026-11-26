@@ -55,8 +55,19 @@ figcaption small{display:block;color:var(--muted)}
 
 /* 規則 */
 .rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:28px}
-.rules h3{font-size:1.1rem;color:var(--brass);margin-bottom:6px}
+.mode{font-size:1.35rem;margin:44px 0 16px;padding-bottom:8px;border-bottom:1px solid #ffffff22}
+.mode:first-of-type{margin-top:0}
+.rules h4{font-family:"Noto Serif TC",serif;font-size:1.1rem;color:var(--brass);margin-bottom:6px}
 .rules p{color:var(--muted)}
+
+
+/* 遊戲連結 */
+.game{background:var(--rail)}
+.game .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px}
+.game h2{margin-bottom:4px}
+.game p{color:var(--muted)}
+.play{display:inline-block;padding:12px 28px;background:var(--brass);color:#2a1a0c;font-weight:500;text-decoration:none;border-radius:999px}
+.play:focus-visible{outline:2px solid var(--ivory);outline-offset:3px}
 
 footer{padding:36px 0;text-align:center;color:var(--muted);font-size:.85rem;border-top:14px solid var(--rail)}
 
@@ -121,14 +132,35 @@ footer{padding:36px 0;text-align:center;color:var(--muted);font-size:.85rem;bord
     </div>
   </section>
 
+  <section class="game">
+    <div class="wrap">
+      <div>
+        <h2>想自己打一局？</h2>
+        <p>遊戲內有八號球和九號球兩種玩法，進入後在「Play Special」選「Play 9 Ball」就能玩九號球。點擊後會在新分頁開啟。</p>
+      </div>
+      <a class="play" href="https://www.miniclip.com/pool" target="_blank" rel="noopener">前往 8 Ball Pool</a>
+    </div>
+  </section>
+
   <section>
     <div class="wrap">
-      <h2>九號球怎麼打</h2>
-      <p class="lead">看比賽前，先記住這三件事。</p>
+      <h2>規則怎麼打</h2>
+      <p class="lead">各平台與場地的細節可能略有不同，遊戲內點桌面左下角的「i」圖示可看該模式規則。</p>
+
+      <h3 class="mode">九號球</h3>
       <div class="rules">
-        <div><h3>依序擊球</h3><p>每桿必須先碰到桌上號碼最小的球，再把球打進袋。</p></div>
-        <div><h3>打進 9 號就贏</h3><p>只要合法打進 9 號球，不管其他球還剩幾顆，立刻獲勝。</p></div>
-        <div><h3>犯規換手</h3><p>白球沒碰到最小號球或白球落袋，對手可以把白球放在桌上任何位置。</p></div>
+        <div><h4>依序擊球</h4><p>每桿必須先碰到桌上號碼最小的球，再把球打進袋。</p></div>
+        <div><h4>打進 9 號就贏</h4><p>只要合法打進 9 號球，不管其他球還剩幾顆，立刻獲勝。</p></div>
+        <div><h4>犯規換手</h4><p>白球沒碰到最小號球或白球落袋，對手可以把白球放在桌上任何位置。</p></div>
+      </div>
+
+      <h3 class="mode">八號球</h3>
+      <div class="rules">
+        <div><h4>分花色</h4><p>共 15 顆球：1 到 7 號是全色球，9 到 15 號是花色球，8 號是黑球。開球後合法打進第一顆球，就確定自己打全色或花色。</p></div>
+        <div><h4>先清自己的球</h4><p>必須把自己那組 7 顆球全部打進袋，才能開始打黑 8 號球。</p></div>
+        <div><h4>打進 8 號就贏</h4><p>清完自己的球後，合法打進 8 號球即獲勝。遊戲裡通常要先指定袋口。</p></div>
+        <div><h4>提前打進 8 號就輸</h4><p>自己的球還沒清完就把 8 號球打進袋，或打進 8 號球的同一桿犯規，直接判輸。</p></div>
+        <div><h4>犯規換手</h4><p>白球落袋、沒碰到自己的球就擊球等情況算犯規，對手可以把白球放在桌上任何位置。</p></div>
       </div>
     </div>
   </section>
