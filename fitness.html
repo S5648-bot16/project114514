@@ -62,6 +62,11 @@ select{width:100%;padding:10px 12px;border-radius:6px;border:1px solid var(--lin
 #result .tips{margin-top:20px}
 #result .tips h3{font-size:1.05rem;margin-bottom:6px}
 
+fieldset.limits{border:0;margin-top:18px;padding:0}
+.limits legend{color:var(--muted);font-size:.9rem;padding:0;margin-bottom:2px}
+.chk{display:inline-flex;align-items:center;gap:6px;margin:6px 20px 0 0;color:var(--text);font-size:1rem;cursor:pointer}
+.chk input{accent-color:var(--accent);width:18px;height:18px}
+
 footer{padding:32px 0;text-align:center;color:var(--muted);font-size:.85rem;border-top:6px solid var(--accent)}
 </style>
 </head>
@@ -80,18 +85,25 @@ footer{padding:32px 0;text-align:center;color:var(--muted);font-size:.85rem;bord
   <section>
     <div class="wrap">
       <h2>依你的狀況，給你專屬建議</h2>
-      <p class="lead">選好下面四項，馬上產生適合你的一週計畫。</p>
+      <p class="lead">選好下面的條件，馬上產生適合你的一週計畫。</p>
       <div class="planner">
         <div class="fields">
           <div><label for="goal">目標</label>
             <select id="goal"><option value="fat">減脂</option><option value="muscle">增肌</option><option value="health">維持健康與體能</option></select></div>
           <div><label for="level">程度</label>
             <select id="level"><option value="new">新手（剛開始或停很久）</option><option value="mid">有基礎（規律練過幾個月）</option></select></div>
+          <div><label for="age">年齡</label>
+            <select id="age"><option value="teen">18 歲以下</option><option value="adult" selected>18 到 39 歲</option><option value="mid">40 到 59 歲</option><option value="senior">60 歲以上</option></select></div>
           <div><label for="days">每週可練幾天</label>
             <select id="days"><option value="2">2 天</option><option value="3" selected>3 天</option><option value="4">4 天</option></select></div>
           <div><label for="gear">器材</label>
             <select id="gear"><option value="none">沒有器材</option><option value="db">有啞鈴</option><option value="gym">在健身房</option></select></div>
         </div>
+        <fieldset class="limits"><legend>有沒有容易不舒服的部位？（可複選，沒有就不用勾）</legend>
+          <label class="chk"><input type="checkbox" value="knee"> 膝蓋</label>
+          <label class="chk"><input type="checkbox" value="back"> 下背</label>
+          <label class="chk"><input type="checkbox" value="shoulder"> 肩膀</label>
+        </fieldset>
         <button type="button" class="go" id="make">產生我的建議</button>
         <div id="result" aria-live="polite"></div>
       </div>
@@ -188,15 +200,35 @@ footer{padding:32px 0;text-align:center;color:var(--muted);font-size:.85rem;bord
 <script>
 (function(){
   var GOAL={
-    fat:{name:"減脂",sets:3,reps:"12 到 15 下",rest:"30 到 45 秒",
-      cardio:"快走、慢跑或騎車 25 到 40 分鐘，強度以「還能說話但有點喘」為準",
-      tips:["體重變化主要來自飲食，運動負責維持肌肉和提升活動量。","每天多走路（例如累積 8000 步左右）比偶爾暴衝更容易持續。","不要極端節食，太餓會讓訓練和睡眠都變差。"]},
-    muscle:{name:"增肌",sets:3,reps:"8 到 12 下",rest:"60 到 90 秒",
-      cardio:"輕鬆有氧 15 到 20 分鐘，避免影響恢復",
+    fat:{name:"減脂",sets:3,reps:"12 到 15 下",rest:[30,45],cmin:"25 到 40 分鐘",
+      tips:["體重變化主要來自飲食，運動負責維持肌肉和提升活動量。","每天多走路比偶爾暴衝更容易持續。","不要極端節食，太餓會讓訓練和睡眠都變差。"]},
+    muscle:{name:"增肌",sets:3,reps:"8 到 12 下",rest:[60,90],cmin:"15 到 20 分鐘",
       tips:["最後兩下要有點吃力，但動作仍然標準。","能輕鬆完成全部組數與次數時，再少量增加重量。","每天攝取足夠的蛋白質，並睡滿 7 小時左右。"]},
-    health:{name:"維持健康與體能",sets:2,reps:"10 到 12 下",rest:"45 到 60 秒",
-      cardio:"快走、騎車或游泳 20 到 30 分鐘",
+    health:{name:"維持健康與體能",sets:2,reps:"10 到 12 下",rest:[45,60],cmin:"20 到 30 分鐘",
       tips:["世界衛生組織建議成人每週累積至少 150 分鐘中等強度的身體活動。","規律比強度重要，先求每週都有做到。","找一個你不討厭的運動，才會長期持續。"]}
+  };
+  var AGE={
+    teen:{name:"18 歲以下",maxSets:3,reps:"10 到 15 下",restAdd:0,
+      act:"球類、跑跳、騎車等你喜歡的活動",cmin:"約 30 到 60 分鐘（可分段累積）",intensity:"",sub:{},
+      extra:["動作學習：每個動作先用徒手或很輕的重量，練到標準再加"],
+      tips:["世界衛生組織建議 5 至 17 歲每天平均至少 60 分鐘中等到高強度活動，不一定都是健身。","青少年還在成長期，重點是學好動作與養成習慣，不追求極限重量。","不建議刻意節食或使用營養補充品，有疑慮請詢問醫師或營養師。","複雜動作（如槓鈴硬舉）建議在教練或老師指導下學習。"]},
+    adult:{name:"18 到 39 歲",maxSets:9,restAdd:0,
+      act:"快走、慢跑或騎車",intensity:"，強度以「還能說話但有點喘」為準",sub:{},extra:[],
+      tips:["這個年齡恢復力較好，可以專注在規律與漸進增加。"]},
+    mid:{name:"40 到 59 歲",maxSets:9,restAdd:15,
+      act:"快走、騎車或游泳（低衝擊）",intensity:"，強度以「還能說話但有點喘」為準",sub:{},
+      extra:["活動度：貓牛式與髖關節伸展 5 分鐘"],
+      tips:["熱身延長到 10 分鐘，讓關節和肌肉準備好再開始。","重量以「能控制動作」為主，避免一開始就用最大力量。","恢復需要多一點時間，感覺疲勞時就多休息一天。"]},
+    senior:{name:"60 歲以上",maxSets:3,reps:"10 到 15 下",restAdd:30,
+      act:"快走、騎固定式腳踏車或游泳",intensity:"，強度以「能輕鬆說話」為準",
+      sub:{"深蹲":"坐到站（坐椅子再站起）","高腳杯深蹲（雙手抱住啞鈴）":"坐到站（抱輕啞鈴）","高腳杯深蹲":"坐到站（抱輕啞鈴）","弓步":"扶椅分腿蹲（小幅度）","啞鈴弓步":"扶椅分腿蹲（小幅度）"},
+      extra:["平衡：單腳站立（可扶牆），每腳 20 到 30 秒","活動度：坐姿伸展與肩頸放鬆 5 分鐘"],
+      tips:["針對高齡者，世界衛生組織建議每週至少 3 天做強調平衡與肌力的多元活動。","動作要慢、要穩，身邊有椅子或牆壁可以扶。","有高血壓、心臟疾病或骨質疏鬆等狀況，開始前請務必先詢問醫師。"]}
+  };
+  var LIM={
+    knee:{name:"膝蓋",map:{"深蹲":"坐到站（坐椅子，淺蹲）","弓步":"臀橋","高腳杯深蹲（雙手抱住啞鈴）":"坐到站（抱啞鈴，淺蹲）","高腳杯深蹲":"坐到站（淺蹲）","啞鈴弓步":"臀橋（可抱啞鈴）","腿推機":"腿推機（小角度，膝蓋不要鎖死）","扶椅分腿蹲（小幅度）":"臀橋"}},
+    back:{name:"下背",map:{"啞鈴羅馬尼亞硬舉":"臀橋（可抱啞鈴）","啞鈴划船":"單手扶椅啞鈴划船（背部保持平直）","棒式（20 到 40 秒）":"鳥狗式（每邊 8 到 10 下）","側棒式（每邊 15 到 30 秒）":"鳥狗式（每邊 8 到 10 下）"}},
+    shoulder:{name:"肩膀",map:{"啞鈴肩推":"輕重量前平舉（只舉到胸前高度）","肩推機":"輕重量前平舉（只舉到胸前高度）","伏地挺身（做不到就改跪姿）":"斜上伏地挺身（手撐在較高處）","伏地挺身或啞鈴臥推":"斜上伏地挺身（手撐在較高處）","胸推機":"胸推機（小幅度、輕重量）"}}
   };
   var EX={
     none:{A:["深蹲","伏地挺身（做不到就改跪姿）","臀橋","棒式（20 到 40 秒）"],
@@ -211,32 +243,48 @@ footer{padding:32px 0;text-align:center;color:var(--muted);font-size:.85rem;bord
   function val(id){return document.getElementById(id).value;}
 
   document.getElementById("make").addEventListener("click",function(){
-    var g=GOAL[val("goal")], mid=val("level")==="mid", n=parseInt(val("days"),10), gear=val("gear");
-    var sets=g.sets+(mid?1:0), s, c;
-    if(n===2){s=2;c=0;}
-    else if(val("goal")==="muscle"){s=n-1;c=1;}
-    else if(val("goal")==="fat"){s=Math.max(2,n-2);c=n-s;}
-    else{s=Math.ceil(n/2);c=n-s;}
-    var seq=[],a=s,b=c;
-    while(a>0||b>0){if(a>0){seq.push("S");a--;}if(b>0){seq.push("C");b--;}}
+    var gk=val("goal"), g=GOAL[gk], a=AGE[val("age")], mid=val("level")==="mid",
+        n=parseInt(val("days"),10), gear=val("gear"), limits=[];
+    document.querySelectorAll(".limits input:checked").forEach(function(x){limits.push(x.value);});
+
+    var sets=Math.min(g.sets+(mid?1:0), a.maxSets), reps=a.reps||g.reps,
+        rest=(g.rest[0]+a.restAdd)+" 到 "+(g.rest[1]+a.restAdd)+" 秒",
+        cardio=a.act+" "+(a.cmin||g.cmin)+a.intensity;
+
+    function swap(x){
+      x=a.sub[x]||x;
+      limits.forEach(function(l){x=LIM[l].map[x]||x;});
+      return x;
+    }
+
+    var sN,cN;
+    if(n===2){sN=2;cN=0;}
+    else if(gk==="muscle"){sN=n-1;cN=1;}
+    else if(gk==="fat"){sN=Math.max(2,n-2);cN=n-sN;}
+    else{sN=Math.ceil(n/2);cN=n-sN;}
+    var seq=[],x=sN,y=cN;
+    while(x>0||y>0){if(x>0){seq.push("S");x--;}if(y>0){seq.push("C");y--;}}
 
     var out=document.getElementById("result");
     out.textContent="";
-    out.appendChild(el("p",g.name+"．"+(mid?"有基礎":"新手")+"．每週 "+n+" 天．"+GEAR[gear],"sum"));
+    var sum=[g.name,a.name,mid?"有基礎":"新手","每週 "+n+" 天",GEAR[gear]];
+    limits.forEach(function(l){sum.push(LIM[l].name+"不適");});
+    out.appendChild(el("p",sum.join("．"),"sum"));
 
     var days=el("div",null,"days"), k=0;
     seq.forEach(function(t,i){
       var d=el("div",null,"day");
       if(t==="S"){
-        var list=EX[gear][k%2===0?"A":"B"]; k++;
-        d.appendChild(el("h3","第 "+(i+1)+" 天｜肌力（全身 "+(k%2===1?"A":"B")+"）"));
+        var ab=k%2===0?"A":"B"; k++;
+        d.appendChild(el("h3","第 "+(i+1)+" 天｜肌力（全身 "+ab+"）"));
         var ul=el("ul");
-        list.forEach(function(x){ul.appendChild(el("li",x));});
+        EX[gear][ab].forEach(function(e){ul.appendChild(el("li",swap(e)));});
+        a.extra.forEach(function(e){ul.appendChild(el("li",e));});
         d.appendChild(ul);
-        d.appendChild(el("p","每個動作 "+sets+" 組，每組 "+g.reps+"，組間休息 "+g.rest+"。","note"));
+        d.appendChild(el("p","每個動作 "+sets+" 組，每組 "+reps+"，組間休息 "+rest+"。","note"));
       }else{
         d.appendChild(el("h3","第 "+(i+1)+" 天｜有氧"));
-        d.appendChild(el("p",g.cardio+"。"));
+        d.appendChild(el("p",cardio+"。"));
       }
       days.appendChild(d);
     });
@@ -245,11 +293,13 @@ footer{padding:32px 0;text-align:center;color:var(--muted);font-size:.85rem;bord
     var tips=el("div",null,"tips");
     tips.appendChild(el("h3","給你的提醒"));
     var tl=el("ul");
-    g.tips.forEach(function(x){tl.appendChild(el("li",x));});
-    if(n===2)tl.appendChild(el("li","每週只練 2 天時，其餘日子多散步或活動，效果會更好。"));
-    if(mid)tl.appendChild(el("li","進階做法：把下放動作放慢（約 3 秒），或選更難的變化，不要只靠加重量。"));
-    else tl.appendChild(el("li","新手前 2 到 4 週先專注把動作做標準，重量留到後面再加。"));
-    tl.appendChild(el("li","訓練日之間盡量隔開，中間穿插休息日。有傷病或身體不適，請先詢問醫師或專業教練。"));
+    function add(t){tl.appendChild(el("li",t));}
+    a.tips.forEach(add);
+    g.tips.forEach(add);
+    if(limits.length)add("你勾選了"+limits.map(function(l){return LIM[l].name;}).join("、")+"，已替換成負擔較小的動作。若疼痛持續或加劇，請先就醫，不要硬撐。");
+    if(n===2)add("每週只練 2 天時，其餘日子多散步或活動，效果會更好。");
+    add(mid?"進階做法：把下放動作放慢（約 3 秒），或選更難的變化，不要只靠加重量。":"前 2 到 4 週先專注把動作做標準，重量留到後面再加。");
+    add("訓練日之間盡量隔開，中間穿插休息日。有慢性疾病、受傷或身體不適，請先詢問醫師或專業教練。");
     tips.appendChild(tl);
     out.appendChild(tips);
   });
