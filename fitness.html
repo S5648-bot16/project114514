@@ -46,6 +46,22 @@ td:first-child{white-space:nowrap;font-weight:500}
 button{background:transparent;color:var(--text);border:1.5px solid var(--accent);padding:8px 18px;border-radius:999px;font:inherit;cursor:pointer}
 button:hover{background:var(--accent);color:#1b0e06}
 
+/* 客製化建議 */
+.planner{background:var(--panel);border-radius:8px;padding:24px}
+.fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:16px}
+label{display:block;font-size:.9rem;color:var(--muted);margin-bottom:4px}
+select{width:100%;padding:10px 12px;border-radius:6px;border:1px solid var(--line);background:var(--bg);color:var(--text);font:inherit}
+.go{margin-top:20px;background:var(--accent);color:#1b0e06;border-color:var(--accent);font-weight:500}
+.go:hover{filter:brightness(1.1);background:var(--accent)}
+#result{margin-top:28px}
+#result .sum{color:var(--accent);font-weight:500;margin-bottom:16px}
+#result .days{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:14px}
+#result .day{background:var(--bg);border-radius:8px;padding:16px;border-left:3px solid var(--accent)}
+#result .day h3{font-size:1.05rem;margin-bottom:6px}
+#result ul{padding-left:1.2em;color:var(--muted)}
+#result .tips{margin-top:20px}
+#result .tips h3{font-size:1.05rem;margin-bottom:6px}
+
 footer{padding:32px 0;text-align:center;color:var(--muted);font-size:.85rem;border-top:6px solid var(--accent)}
 </style>
 </head>
@@ -61,6 +77,27 @@ footer{padding:32px 0;text-align:center;color:var(--muted);font-size:.85rem;bord
 </header>
 
 <main>
+  <section>
+    <div class="wrap">
+      <h2>依你的狀況，給你專屬建議</h2>
+      <p class="lead">選好下面四項，馬上產生適合你的一週計畫。</p>
+      <div class="planner">
+        <div class="fields">
+          <div><label for="goal">目標</label>
+            <select id="goal"><option value="fat">減脂</option><option value="muscle">增肌</option><option value="health">維持健康與體能</option></select></div>
+          <div><label for="level">程度</label>
+            <select id="level"><option value="new">新手（剛開始或停很久）</option><option value="mid">有基礎（規律練過幾個月）</option></select></div>
+          <div><label for="days">每週可練幾天</label>
+            <select id="days"><option value="2">2 天</option><option value="3" selected>3 天</option><option value="4">4 天</option></select></div>
+          <div><label for="gear">器材</label>
+            <select id="gear"><option value="none">沒有器材</option><option value="db">有啞鈴</option><option value="gym">在健身房</option></select></div>
+        </div>
+        <button type="button" class="go" id="make">產生我的建議</button>
+        <div id="result" aria-live="polite"></div>
+      </div>
+    </div>
+  </section>
+
   <section>
     <div class="wrap">
       <h2>三種訓練</h2>
@@ -145,6 +182,77 @@ footer{padding:32px 0;text-align:center;color:var(--muted);font-size:.85rem;bord
     b.addEventListener("click",function(){start(parseInt(b.dataset.sec,10));});
   });
   document.getElementById("reset").addEventListener("click",function(){stop();left=60;show();});
+})();
+</script>
+
+<script>
+(function(){
+  var GOAL={
+    fat:{name:"減脂",sets:3,reps:"12 到 15 下",rest:"30 到 45 秒",
+      cardio:"快走、慢跑或騎車 25 到 40 分鐘，強度以「還能說話但有點喘」為準",
+      tips:["體重變化主要來自飲食，運動負責維持肌肉和提升活動量。","每天多走路（例如累積 8000 步左右）比偶爾暴衝更容易持續。","不要極端節食，太餓會讓訓練和睡眠都變差。"]},
+    muscle:{name:"增肌",sets:3,reps:"8 到 12 下",rest:"60 到 90 秒",
+      cardio:"輕鬆有氧 15 到 20 分鐘，避免影響恢復",
+      tips:["最後兩下要有點吃力，但動作仍然標準。","能輕鬆完成全部組數與次數時，再少量增加重量。","每天攝取足夠的蛋白質，並睡滿 7 小時左右。"]},
+    health:{name:"維持健康與體能",sets:2,reps:"10 到 12 下",rest:"45 到 60 秒",
+      cardio:"快走、騎車或游泳 20 到 30 分鐘",
+      tips:["世界衛生組織建議成人每週累積至少 150 分鐘中等強度的身體活動。","規律比強度重要，先求每週都有做到。","找一個你不討厭的運動，才會長期持續。"]}
+  };
+  var EX={
+    none:{A:["深蹲","伏地挺身（做不到就改跪姿）","臀橋","棒式（20 到 40 秒）"],
+          B:["弓步","斜上伏地挺身（手撐在桌邊或椅子）","臀橋","側棒式（每邊 15 到 30 秒）"]},
+    db:{A:["高腳杯深蹲（雙手抱住啞鈴）","啞鈴划船","啞鈴肩推","棒式（20 到 40 秒）"],
+        B:["啞鈴羅馬尼亞硬舉","伏地挺身或啞鈴臥推","啞鈴弓步","側棒式（每邊 15 到 30 秒）"]},
+    gym:{A:["腿推機","坐姿划船機","胸推機","棒式（20 到 40 秒）"],
+         B:["高腳杯深蹲","滑輪下拉","肩推機","側棒式（每邊 15 到 30 秒）"]}
+  };
+  var GEAR={none:"沒有器材",db:"有啞鈴",gym:"健身房"};
+  function el(tag,text,cls){var e=document.createElement(tag);if(text)e.textContent=text;if(cls)e.className=cls;return e;}
+  function val(id){return document.getElementById(id).value;}
+
+  document.getElementById("make").addEventListener("click",function(){
+    var g=GOAL[val("goal")], mid=val("level")==="mid", n=parseInt(val("days"),10), gear=val("gear");
+    var sets=g.sets+(mid?1:0), s, c;
+    if(n===2){s=2;c=0;}
+    else if(val("goal")==="muscle"){s=n-1;c=1;}
+    else if(val("goal")==="fat"){s=Math.max(2,n-2);c=n-s;}
+    else{s=Math.ceil(n/2);c=n-s;}
+    var seq=[],a=s,b=c;
+    while(a>0||b>0){if(a>0){seq.push("S");a--;}if(b>0){seq.push("C");b--;}}
+
+    var out=document.getElementById("result");
+    out.textContent="";
+    out.appendChild(el("p",g.name+"．"+(mid?"有基礎":"新手")+"．每週 "+n+" 天．"+GEAR[gear],"sum"));
+
+    var days=el("div",null,"days"), k=0;
+    seq.forEach(function(t,i){
+      var d=el("div",null,"day");
+      if(t==="S"){
+        var list=EX[gear][k%2===0?"A":"B"]; k++;
+        d.appendChild(el("h3","第 "+(i+1)+" 天｜肌力（全身 "+(k%2===1?"A":"B")+"）"));
+        var ul=el("ul");
+        list.forEach(function(x){ul.appendChild(el("li",x));});
+        d.appendChild(ul);
+        d.appendChild(el("p","每個動作 "+sets+" 組，每組 "+g.reps+"，組間休息 "+g.rest+"。","note"));
+      }else{
+        d.appendChild(el("h3","第 "+(i+1)+" 天｜有氧"));
+        d.appendChild(el("p",g.cardio+"。"));
+      }
+      days.appendChild(d);
+    });
+    out.appendChild(days);
+
+    var tips=el("div",null,"tips");
+    tips.appendChild(el("h3","給你的提醒"));
+    var tl=el("ul");
+    g.tips.forEach(function(x){tl.appendChild(el("li",x));});
+    if(n===2)tl.appendChild(el("li","每週只練 2 天時，其餘日子多散步或活動，效果會更好。"));
+    if(mid)tl.appendChild(el("li","進階做法：把下放動作放慢（約 3 秒），或選更難的變化，不要只靠加重量。"));
+    else tl.appendChild(el("li","新手前 2 到 4 週先專注把動作做標準，重量留到後面再加。"));
+    tl.appendChild(el("li","訓練日之間盡量隔開，中間穿插休息日。有傷病或身體不適，請先詢問醫師或專業教練。"));
+    tips.appendChild(tl);
+    out.appendChild(tips);
+  });
 })();
 </script>
 </body>
